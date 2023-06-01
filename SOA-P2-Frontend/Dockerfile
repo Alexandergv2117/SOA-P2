@@ -20,4 +20,4 @@ RUN yarn install --prod
 
 COPY --from=builder /app/dist ./dist
 
-CMD ["yarn", "deploy"]
+CMD ["yarn", "deploy-prd"]
