@@ -41,6 +41,7 @@ export const AssetsEmployees = () => {
 
   useEffect(() => {
     GetAssetsEmpolyees()
+    console.log(assetsEmployees)
   }, [])
   
   return (
@@ -50,12 +51,10 @@ export const AssetsEmployees = () => {
       </div>
       <div className={styles.table}>
         <div className={styles.tHeader}>
-          <p>id_employee</p>
-          <p>id_Activo</p>
+          <p>Empleado</p>
+          <p>Activo</p>
           <p>assignment_date</p>
           <p>release_date</p>
-          <p>delivery_date</p>
-          <p>empleado</p>
           <p>activo</p>
           <p>Acciones</p>
         </div>
@@ -63,12 +62,10 @@ export const AssetsEmployees = () => {
           { assetsEmployees.length >= 0 ?
             assetsEmployees.map((entity, index) => (
               <div key={index} className={styles.row}>
-                <p>{entity.id_empleoyee}</p>
-                <p>{entity.id_activo}</p>
+                <p>{entity.nameEmployee}</p>
+                <p>{entity.nameActivo}</p>
                 <p>{entity.assignment_date}</p>
                 <p>{entity.release_date}</p>
-                <p>{entity.delivery_date}</p>
-                <p>{entity.empleado}</p>
                 <p>{entity.status === false ? 'Disponible': 'Asignado'}</p>
                 <div className={styles.btnEdit}>
                   <input type="button" onClick={(e) =>handleEdit(e, entity)} value="Entregar" />
