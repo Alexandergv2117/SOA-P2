@@ -6,7 +6,7 @@ const hostFront = import.meta.env.VITE_HOST_FRONT
 export const Header = () => {
 
   const GoToEmployees = () => {
-    window.location.href = `${hostFront}/employees`
+    window.location.href = `${hostFront}/`
   }
   const GoToAssets = () => {
     window.location.href = `${hostFront}/assets`
