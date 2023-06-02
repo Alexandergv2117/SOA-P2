@@ -9,6 +9,7 @@ export const MainRouter = () => {
     < BrowserRouter>
         <Routes>
           <Route path="/" element={<Employees/>} />
+          <Route path="/employees" element={<Employees/>} />
           <Route path="/assets" element={<Assets/>} />
           <Route path="/assetsEmployees" element={<AssetsEmployees/>} />
         </Routes>
