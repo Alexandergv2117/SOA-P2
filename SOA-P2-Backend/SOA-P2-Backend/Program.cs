@@ -40,6 +40,10 @@ Console.WriteLine("******************************   SERVICIOS CONFIGURADOS    **
 
 var app = builder.Build();
 
+// Railway
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8081";
+builder.WebHost.UseUrls($"http://*:{port}");
+
 // Configure the HTTP request pipeline.
 /*if (app.Environment.IsDevelopment())
 {
