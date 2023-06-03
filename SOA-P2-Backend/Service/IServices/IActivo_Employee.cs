@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Model;
 using Domain.Request;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace Service.IServices
         string AssignActivo(RequestPostAssignActivo assignActivo);
 
         string DeliveryActivo(RequestPatchDeliveryActivo deliveryActivo);
-        List<Activo_Empleado> GetAllUndelivered();
+        List<DataActivoEmployeeNotificationEmail> GetAllUndelivered();
+        List<DataActivoEmployeeNotificationEmail> GetAllUndeliveredSendNotification();
     }
 }

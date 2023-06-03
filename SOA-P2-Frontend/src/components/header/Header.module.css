@@ -1,0 +1,12 @@
+.header {
+    width: 100vw;
+    height: 10vh;
+    display: flex;
+    flex-direction: row;
+    justify-self: start;
+    background-color: #282c34;
+}
+
+.btn {
+    background-color: #282c34;
+}
