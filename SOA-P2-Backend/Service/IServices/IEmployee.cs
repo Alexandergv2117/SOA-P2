@@ -12,5 +12,7 @@ namespace Service.IServices
     {
         List<EmpleadoVM> GetAll();
         string CreateEmployee(RequestPostCreateEmployee newEmployee);
-    }
+        string UpdateEmployee(RequestPatchUpdateEmployee newEmployee);
+        string DeleteEmployee(string idEmployee);
+	}
 }

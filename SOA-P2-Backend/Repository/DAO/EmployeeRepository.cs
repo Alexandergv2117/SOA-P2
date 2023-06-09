@@ -81,5 +81,44 @@ namespace Repository.DAO
 
             _context.SaveChanges();
         }
-    }
+
+		public void UpdateEmployee(RequestPatchUpdateEmployee newEmployee)
+		{
+			Persona? persona = _context.Personas.FirstOrDefault(a => a.curp == newEmployee.curp);
+
+			if (persona != null)
+			{
+				Empleado? empleado = _context.Empleados.FirstOrDefault(a => a.id_people == persona.curp);
+
+				persona.birth_date = DateTime.Parse(newEmployee.birth_date);
+				persona.last_name = newEmployee.last_name;
+				persona.name = newEmployee.name;
+                
+                if(empleado != null)
+                {
+					empleado.email = newEmployee.email;
+				}
+
+				_context.SaveChanges();
+			}
+		}
+
+		public void DeleteEmployee(string idEmployee)
+		{
+			Persona? persona = _context.Personas.FirstOrDefault(a => a.curp == idEmployee);
+
+			if (persona != null)
+			{
+				Empleado? empleado = _context.Empleados.FirstOrDefault(a => a.id_people == persona.curp);
+
+				if (empleado != null)
+				{
+					_context.Empleados.Remove(empleado);
+					_context.Personas.Remove(persona);
+
+				}
+				_context.SaveChanges();
+			}
+		}
+	}
 }

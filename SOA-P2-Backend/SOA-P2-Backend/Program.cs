@@ -41,11 +41,11 @@ Console.WriteLine("******************************   SERVICIOS CONFIGURADOS    **
 var app = builder.Build();
 
 // Railway
-var port = Environment.GetEnvironmentVariable("PORT") ?? "8081";
+/*var port = Environment.GetEnvironmentVariable("PORT") ?? "8081";
 builder.WebHost.UseUrls($"http://*:{port}");
 
 // Configure the HTTP request pipeline.
-/*if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
@@ -54,7 +54,7 @@ builder.WebHost.UseUrls($"http://*:{port}");
 app.UseSwagger();
 app.UseSwaggerUI();
 
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
 app.UseCors();
 

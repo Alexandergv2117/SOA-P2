@@ -52,5 +52,32 @@ namespace Service.Services
                 return "Ocurrio un error al crear el usuario";
             }
         }
-    }
+		public string UpdateEmployee(RequestPatchUpdateEmployee requesPatchUpdateEmployee)
+        {
+            try
+            {
+                empleoyeeRepository.UpdateEmployee(requesPatchUpdateEmployee);
+                return "Usuario actualizado";
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e.Message);
+                return "Ocurrio un error al actualizar el usuario";
+			}
+        }
+		public string DeleteEmployee(string idEmployee)
+        {
+            try
+            {
+                empleoyeeRepository.DeleteEmployee(idEmployee);
+                return "Usuario eliminado";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return "Ocurrio un error al eliminar el usuario";
+
+			}
+        }
+	}
 }

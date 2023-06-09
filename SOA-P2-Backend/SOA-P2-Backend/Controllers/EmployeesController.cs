@@ -24,5 +24,15 @@ namespace SOA_P2_Backend.Controllers
         {
             return Ok(_employee.CreateEmployee(employee));
         }
-    }
+        [HttpPatch]
+        public IActionResult Update([FromBody] RequestPatchUpdateEmployee employee)
+        {
+            return Ok(_employee.UpdateEmployee(employee));
+        }
+		[HttpDelete]
+		public IActionResult Delete([FromBody] string idEmployee)
+		{
+			return Ok(_employee.DeleteEmployee(idEmployee));
+		}
+	}
 }
