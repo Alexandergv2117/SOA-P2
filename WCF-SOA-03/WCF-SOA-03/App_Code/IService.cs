@@ -20,6 +20,14 @@ public interface IService
     [OperationContract]
     string DeleteActivo(int id);
 
+	// Activo_Employee
+	[OperationContract]
+	string GetAllDataActivoEmpleadoUndelivery();
+	[OperationContract]
+	string AssignActivo(int id_empleoyeem, int id_activo, string delivery_date);
+    [OperationContract]
+    string UpdateActivoEmployee(int id_empleoyee, int id_activo);
+
 
     // Auth
     [OperationContract]

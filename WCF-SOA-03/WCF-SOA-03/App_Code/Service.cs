@@ -155,6 +155,113 @@ public class Service : IService
         return data;
     }
 
+    // Activo_Employee
+    public string GetAllDataActivoEmpleadoUndelivery()
+    {
+        string data = "";
+        try
+        {
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.Clear();
+            var response = client.GetAsync(_URL_HOST + "Activo_Employee/undelivery").Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = response.Content.ReadAsStringAsync().Result;
+
+                var res = JsonConvert.DeserializeObject<DataResponse<List<ActivoEmployeeUndelivey>>>(result);
+
+                data = JsonConvert.SerializeObject(res.Data);
+            }
+        }
+        catch (Exception ex)
+        {
+            data = "Error: " + ex.Message;
+        }
+
+        return data;
+    }
+    public string AssignActivo(int id_empleoyee, int id_activo, string delivery_date)
+    {
+        var newActivo = new AssignActivo
+        {
+            id_empleoyee = id_empleoyee,
+            id_activo = id_activo,
+            delivery_date = delivery_date,
+        };
+
+        string data = "";
+
+        try
+        {
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.Clear();
+
+            // Serializa el objeto newPerson a JSON
+            var json = JsonConvert.SerializeObject(newActivo);
+
+            // Crea el contenido de la solicitud POST con el JSON serializado
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            // Envía la solicitud POST a la URL deseada
+            var response = client.PostAsync(_URL_HOST + "Activo_Employee", content).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = response.Content.ReadAsStringAsync().Result;
+                var res = JsonConvert.DeserializeObject<DataResponsePost>(result);
+
+                data = JsonConvert.SerializeObject(res);
+            }
+        }
+        catch (Exception ex)
+        {
+            data = "Error: " + ex.Message;
+        }
+
+        return data;
+    }
+
+    public string UpdateActivoEmployee(int id_empleoyee, int id_activo)
+    {
+        var assignActivo = new DeliveryActivoEmployee
+        {
+            id_activo = id_activo,
+            id_empleoyee = id_empleoyee,
+        };
+
+        string data = "";
+
+        try
+        {
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.Clear();
+
+            // Serializa el objeto newPerson a JSON
+            var json = JsonConvert.SerializeObject(assignActivo);
+
+            // Crea el contenido de la solicitud POST con el JSON serializado
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            // Envía la solicitud POST a la URL deseada
+            var response = client.PutAsync(_URL_HOST + "Activo_Employee", content).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = response.Content.ReadAsStringAsync().Result;
+                var res = JsonConvert.DeserializeObject<DataResponsePost>(result);
+
+                data = JsonConvert.SerializeObject(res);
+            }
+        }
+        catch (Exception ex)
+        {
+            data = "Error: " + ex.Message;
+        }
+
+        return data;
+    }
+
     // Auth
 
     public string LogIn(string email, string password)
