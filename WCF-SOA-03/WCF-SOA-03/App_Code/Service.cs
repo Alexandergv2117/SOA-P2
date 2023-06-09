@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Activities.Statements;
 using System.Collections.Generic;
@@ -17,31 +18,57 @@ public class Service : IService
 		return string.Format("You entered: {0}", value);
 	}
 
-	public string GetDataPersonById(int id)
-	{
-		string data = "";
-		try 
-		{
-			HttpClient client = new HttpClient();
-			client.DefaultRequestHeaders.Accept.Clear();
-			var response = client.GetAsync("http://api-soa.somee.com/api-soa/personas").Result;
+    public string GetAllDataPerson()
+    {
+        string data = "";
+        try
+        {
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.Clear();
+            var response = client.GetAsync("http://localhost:8080/Employees").Result;
 
-			if (response.IsSuccessStatusCode)
-			{
-				var result = response.Content.ReadAsStringAsync().Result;
+            if (response.IsSuccessStatusCode)
+            {
+                var result = response.Content.ReadAsStringAsync().Result;
 
-				List<Person> persons = JsonConvert.DeserializeObject<List<Person>>(result);
+                var res = JsonConvert.DeserializeObject<DataResponse<List<Person>>>(result);
 
-				var person = persons.FirstOrDefault(x => x.id == id);
+                data = JsonConvert.SerializeObject(res.Data);
+            }
+        }
+        catch (Exception ex)
+        {
+            data = "Error: " + ex.Message;
+        }
 
-				data = JsonConvert.SerializeObject(person);
-			}
-		} 
-		catch (Exception ex)
-		{
-			data = ex.Message;
-		}
+        return data;
+    }
 
-		return data;
-	}
+    public string GetDataPersonById(int id)
+    {
+        string data = "";
+        try
+        {
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.Clear();
+            var response = client.GetAsync("http://localhost:8080/Employees").Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = response.Content.ReadAsStringAsync().Result;
+
+                var res = JsonConvert.DeserializeObject<DataResponse<List<Person>>>(result);
+
+                var person = res.Data.FirstOrDefault(x => x.num_employee == id);
+
+                data = JsonConvert.SerializeObject(person);
+            }
+        }
+        catch (Exception ex)
+        {
+            data = "Error: " + ex.Message;
+        }
+
+        return data;
+    }
 }

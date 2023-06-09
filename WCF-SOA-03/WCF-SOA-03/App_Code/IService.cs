@@ -16,8 +16,10 @@ public interface IService
 
 	[OperationContract]
 	string GetDataPersonById(int id);
+	[OperationContract]
+	string GetAllDataPerson();
 
-	// TODO: agregue aquí sus operaciones de servicio
+    // TODO: agregue aquí sus operaciones de servicio
 }
 
 // Utilice un contrato de datos, como se ilustra en el ejemplo siguiente, para agregar tipos compuestos a las operaciones de servicio.

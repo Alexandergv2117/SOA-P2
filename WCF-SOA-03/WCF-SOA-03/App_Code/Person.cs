@@ -12,9 +12,19 @@ using System.Web;
 public class Person
 {
     [DataMember]
-    public int id { get ; set; }
+    public string curp { get; set; }
     [DataMember]
-    public string nombre { get; set; }
+    public string name { get; set; }
     [DataMember]
-    public string apellidos { get; set; }
+    public string last_name { get; set; }
+    [DataMember]
+    public DateTime birth_date { get; set; }
+    [DataMember]
+    public int num_employee { get; set; }
+    [DataMember]
+    public string email { get; set; }
+    [DataMember]
+    public DateTime date_hire { get; set; }
+    [DataMember]
+    public bool status { get; set; }
 }
