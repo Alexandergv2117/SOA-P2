@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 // NOTA: puede usar el comando "Rename" del menú "Refactorizar" para cambiar el nombre de clase "Service1" en el código, en svc y en el archivo de configuración.
 public class Service : IService
 {
+    private readonly string _URL_HOST = "http://localhost:8080/";
 	public string GetData(int value)
 	{
 		return string.Format("You entered: {0}", value);
@@ -41,7 +42,7 @@ public class Service : IService
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             // Envía la solicitud POST a la URL deseada
-            var response = client.PostAsync("http://localhost:8080/Auth", content).Result;
+            var response = client.PostAsync(_URL_HOST +"Auth", content).Result;
 
             if (response.IsSuccessStatusCode)
             {
@@ -67,7 +68,7 @@ public class Service : IService
         {
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Clear();
-            var response = client.GetAsync("http://localhost:8080/Employees").Result;
+            var response = client.GetAsync(_URL_HOST + "Employees").Result;
 
             if (response.IsSuccessStatusCode)
             {
@@ -93,7 +94,7 @@ public class Service : IService
         {
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Clear();
-            var response = client.GetAsync("http://localhost:8080/Employees").Result;
+            var response = client.GetAsync(_URL_HOST + "Employees").Result;
 
             if (response.IsSuccessStatusCode)
             {
@@ -138,7 +139,7 @@ public class Service : IService
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             // Envía la solicitud POST a la URL deseada
-            var response = client.PostAsync("http://localhost:8080/Employees", content).Result;
+            var response = client.PostAsync(_URL_HOST + "Employees", content).Result;
 
             if(response.IsSuccessStatusCode)
             {
