@@ -24,15 +24,19 @@ namespace SOA_P2_Backend.Controllers
         {
             return Ok(_activo.AddActivo(newActivo));
         }
-        [HttpPatch]
+        [HttpPut]
         public IActionResult Update(RequestPatchUpdateStatusActivo newStatus)
         {
             return Ok(_activo.UpdateStatusActivo(newStatus));
         }
 
         [HttpDelete]
-        public IActionResult Delete(RequestDeleteActivo deleteActivo) 
+        public IActionResult Delete(int id) 
         {
+            var deleteActivo = new RequestDeleteActivo
+            {
+                id = id
+            };
             return Ok(_activo.DeleteActivo(deleteActivo));
         }
     }

@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Activities.Statements;
 using System.Collections.Generic;
+using System.IdentityModel.Protocols.WSTrust;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.Serialization;
@@ -19,6 +20,140 @@ public class Service : IService
 	{
 		return string.Format("You entered: {0}", value);
 	}
+
+    // Activo
+    public string GetAllDataActivo()
+    {
+        string data = "";
+        try
+        {
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.Clear();
+            var response = client.GetAsync(_URL_HOST + "Activo").Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = response.Content.ReadAsStringAsync().Result;
+
+                var res = JsonConvert.DeserializeObject<DataResponse<List<Activo>>>(result);
+
+                data = JsonConvert.SerializeObject(res.Data);
+            }
+        }
+        catch (Exception ex)
+        {
+            data = "Error: " + ex.Message;
+        }
+
+        return data;
+    }
+    public string UpdateActivo(int id, bool status)
+    {
+        var newActivo = new UpdateActivo
+        {
+            id = id,
+            status = status
+        };
+
+        string data = "";
+
+        try
+        {
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.Clear();
+
+            // Serializa el objeto newPerson a JSON
+            var json = JsonConvert.SerializeObject(newActivo);
+
+            // Crea el contenido de la solicitud POST con el JSON serializado
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            // Envía la solicitud POST a la URL deseada
+            var response = client.PutAsync(_URL_HOST + "Activo", content).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = response.Content.ReadAsStringAsync().Result;
+                var res = JsonConvert.DeserializeObject<DataResponsePost>(result);
+
+                data = JsonConvert.SerializeObject(res);
+            }
+        }
+        catch (Exception ex)
+        {
+            data = "Error: " + ex.Message;
+        }
+
+        return data;
+    }
+    public string DeleteActivo(int id)
+    {
+        string data = "";
+
+        try
+        {
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.Clear();
+
+            // Envía la solicitud DELETE a la URL deseada
+            var response = client.DeleteAsync(_URL_HOST + "Activo?id=" + id).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = response.Content.ReadAsStringAsync().Result;
+                var res = JsonConvert.DeserializeObject<DataResponsePost>(result);
+
+                data = JsonConvert.SerializeObject(res);
+            }
+        }
+        catch (Exception ex)
+        {
+            data = "Error: " + ex.Message;
+        }
+
+        return data;
+    }
+
+
+    public string CreateActivo(string name, string description)
+    {
+        var newActivo = new CreateActivo
+        {
+            description = description,
+            name = name,
+        };
+
+        string data = "";
+
+        try
+        {
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.Clear();
+
+            // Serializa el objeto newPerson a JSON
+            var json = JsonConvert.SerializeObject(newActivo);
+
+            // Crea el contenido de la solicitud POST con el JSON serializado
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            // Envía la solicitud POST a la URL deseada
+            var response = client.PostAsync(_URL_HOST + "Activo", content).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = response.Content.ReadAsStringAsync().Result;
+                var res = JsonConvert.DeserializeObject<DataResponsePost>(result);
+
+                data = JsonConvert.SerializeObject(res);
+            }
+        }
+        catch (Exception ex)
+        {
+            data = "Error: " + ex.Message;
+        }
+
+        return data;
+    }
 
     // Auth
 

@@ -10,6 +10,17 @@ using System.Text;
 [ServiceContract]
 public interface IService
 {
+    // Activo
+    [OperationContract]
+    string CreateActivo(string name, string description);
+    [OperationContract]
+    string GetAllDataActivo();
+	[OperationContract]
+	string UpdateActivo(int id, bool status);
+    [OperationContract]
+    string DeleteActivo(int id);
+
+
     // Auth
     [OperationContract]
     string LogIn(string email, string password);
