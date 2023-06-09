@@ -10,14 +10,21 @@ using System.Text;
 [ServiceContract]
 public interface IService
 {
+    // Auth
+    [OperationContract]
+    string LogIn(string email, string password);
 
-	[OperationContract]
+    // Employees
+
+    [OperationContract]
 	string GetData(int value);
 
 	[OperationContract]
 	string GetDataPersonById(int id);
 	[OperationContract]
 	string GetAllDataPerson();
+	[OperationContract]
+	string CreatePersonAsync(string curp, string name, string last_name, string birth_date, string email, string password);
 
     // TODO: agregue aquí sus operaciones de servicio
 }
