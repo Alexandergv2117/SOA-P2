@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Request;
+using Domain.Response;
 using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,10 @@ namespace Service.IServices
 {
     public interface IActivo
     {
-        List<Activo> GetAll();
-        string AddActivo(RequestPostCreateActivo newActivo);
-        string UpdateStatusActivo(RequestPatchUpdateStatusActivo newStatus);
+        DataResponse GetAll();
+        DataResponse AddActivo(RequestPostCreateActivo newActivo);
+        DataResponse UpdateStatusActivo(RequestPatchUpdateStatusActivo newStatus);
+
+        DataResponse DeleteActivo(RequestDeleteActivo requestDeleteActivo);
     }
 }

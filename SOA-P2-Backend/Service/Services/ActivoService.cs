@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Request;
+using Domain.Response;
 using Microsoft.Extensions.Logging;
 using Repository.Context;
 using Repository.DAO;
@@ -23,48 +24,106 @@ namespace Service.Services
             activoRepository = new ActivoRepository(context);
         }
 
-        public List<Activo> GetAll()
+        public DataResponse GetAll()
         {
             List<Activo> activos = new List<Activo>();
+            DataResponse res = new DataResponse();
 
             try
             {
                 activos = activoRepository.GetAll();
+                res.Code = 200;
+                res.Data = activos;
+                res.Message = "OK";
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
+                res.Code = 500;
+                res.Data = activos;
+                res.Message = e.Message;
             }
 
-            return activos;
+            return res;
         }
 
-        public string AddActivo(RequestPostCreateActivo newActivo)
+        public DataResponse AddActivo(RequestPostCreateActivo newActivo)
         {
+            DataResponse res = new DataResponse();
             try
             {
                 activoRepository.AddActivo(newActivo);
-                return "Activo creado";
+                res.Code = 200;
+                res.Data = newActivo;
+                res.Message = "Activo creado";
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
+                res.Code = 500;
+                res.Data = newActivo;
+                res.Message = "Error al crear el activo";
             }
-            return "No se pudo, crear el activo";
+            return res;
         }
 
-        public string UpdateStatusActivo(RequestPatchUpdateStatusActivo newStatus)
+        public DataResponse UpdateStatusActivo(RequestPatchUpdateStatusActivo newStatus)
         {
+            DataResponse res = new DataResponse();
             try
             {
-                activoRepository.UpdateStatusActivo(newStatus);
-                return "Status del activo actualizado";
+                bool status = activoRepository.UpdateStatusActivo(newStatus);
+                if (status)
+                {
+                    res.Code = 200;
+                    res.Data = newStatus;
+                    res.Message = "Status del activo actualizado";
+                } else
+                {
+                    res.Code = 500;
+                    res.Data = newStatus;
+                    res.Message = "No se pudo, actualizar el status del activo";
+                }
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
+                res.Code = 500;
+                res.Data = newStatus;
+                res.Message = "No se pudo, actualizar el status del activo";
             }
-            return "No se pudo, actualizar el status del activo";
+            return res;
+        }
+
+        public DataResponse DeleteActivo(RequestDeleteActivo requestDeleteActivo)
+        {
+            DataResponse res = new DataResponse();
+
+            try
+            {
+                bool isDelete = activoRepository.Delete(requestDeleteActivo);
+
+                if (isDelete)
+                {
+                    res.Code = 200;
+                    res.Data = null;
+                    res.Message = "Activo eliminado";
+                } else
+                {
+                    res.Code = 400;
+                    res.Data = null;
+                    res.Message = "El activo, no se pudo eliminar";
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                res.Code = 500;
+                res.Data = null;
+                res.Message = "No se pudo, eliminar el activo";
+            }
+
+            return res;
         }
     }
 }

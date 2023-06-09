@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Model;
 using Domain.Request;
+using Domain.Response;
 using Microsoft.Extensions.Logging;
 using Repository.Context;
 using Repository.DAO;
@@ -26,8 +27,9 @@ namespace Service.Services
             _email = email;
         }
 
-        public string AssignActivo(RequestPostAssignActivo assignActivo)
+        public DataResponse AssignActivo(RequestPostAssignActivo assignActivo)
         {
+            DataResponse res = new DataResponse();
             try
             {
                 activo_EmployeeRepository.AssignActivo(assignActivo);
@@ -37,17 +39,23 @@ namespace Service.Services
                     id_empleoyee = assignActivo.id_empleoyee,
                     deliveryDate = assignActivo.delivery_date
                 });
-                return "Activo asignado";
+                res.Code = 200;
+                res.Data = assignActivo;
+                res.Message = "OK";
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
+                res.Code = 400;
+                res.Data = assignActivo;
+                res.Message = "No se pudo, asignar el activo";
             }
-            return "No se pudo, asignar el activo";
+            return res;
         }
 
-        public string DeliveryActivo(RequestPatchDeliveryActivo deliveryActivo)
+        public DataResponse DeliveryActivo(RequestPatchDeliveryActivo deliveryActivo)
         {
+            DataResponse res = new DataResponse();
             try
             {
                 activo_EmployeeRepository.deliveryActivo(deliveryActivo);
@@ -57,28 +65,40 @@ namespace Service.Services
                     id_empleoyee = deliveryActivo.id_empleoyee,
                     deliveryDate = DateTime.Now.ToString("yyyy-MM-dd")
                 });
-                return "Activo entregado";
+                res.Code = 200;
+                res.Data = deliveryActivo;
+                res.Message = "OK";
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
+                res.Code = 400;
+                res.Data = deliveryActivo;
+                res.Message = "No se pudo, entregar el activo";
             }
-            return "No se pudo, entregar el activo";
+            return res;
         }
 
-        public List<DataActivoEmployeeNotificationEmail> GetAllUndelivered()
+        public DataResponse GetAllUndelivered()
         {
+            DataResponse res = new DataResponse();
             List<DataActivoEmployeeNotificationEmail> list = new List<DataActivoEmployeeNotificationEmail>();
 
             try
             {
                 list = activo_EmployeeRepository.GetAllUndelivered();
+                res.Code = 200;
+                res.Data = list;
+                res.Message = "OK";
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
+                res.Code = 200;
+                res.Data = list;
+                res.Message = "Error, al obtene los datos";
             }
-            return list;
+            return res;
         }
 
         public List<DataActivoEmployeeNotificationEmail> GetAllUndeliveredSendNotification()

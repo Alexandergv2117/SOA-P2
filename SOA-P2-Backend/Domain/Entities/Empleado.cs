@@ -19,6 +19,8 @@ namespace Domain.Entities
         [Required]
         public string email { get; set; }
         [Required]
+        public string password { get; set; }
+        [Required]
         [DataType(DataType.Date)]
         public DateTime date_hire { get; set; }
         [Required]

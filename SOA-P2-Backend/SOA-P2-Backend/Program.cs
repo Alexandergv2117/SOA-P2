@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Repository.Context;
@@ -17,6 +18,7 @@ builder.Services.AddTransient<IEmployee, EmployeeService>();
 builder.Services.AddTransient<IActivo, ActivoService>();
 builder.Services.AddTransient<IActivo_Employee, Activo_EmployeeService>();
 builder.Services.AddTransient<IEmail, EmailService>();
+builder.Services.AddTransient<IAuth, AuthService>();
 
 // Add services to the container.
 
@@ -41,8 +43,8 @@ Console.WriteLine("******************************   SERVICIOS CONFIGURADOS    **
 var app = builder.Build();
 
 // Railway
-var port = Environment.GetEnvironmentVariable("PORT") ?? "8081";
-builder.WebHost.UseUrls($"http://*:{port}");
+//var port = Environment.GetEnvironmentVariable("PORT") ?? "8081";
+//builder.WebHost.UseUrls($"http://*:{port}");
 
 // Configure the HTTP request pipeline.
 /*if (app.Environment.IsDevelopment())
@@ -54,7 +56,7 @@ builder.WebHost.UseUrls($"http://*:{port}");
 app.UseSwagger();
 app.UseSwaggerUI();
 
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
 app.UseCors();
 

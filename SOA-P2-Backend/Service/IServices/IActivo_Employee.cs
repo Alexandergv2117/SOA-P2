@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Model;
 using Domain.Request;
+using Domain.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,10 @@ namespace Service.IServices
 {
     public interface IActivo_Employee
     {
-        string AssignActivo(RequestPostAssignActivo assignActivo);
+        DataResponse AssignActivo(RequestPostAssignActivo assignActivo);
 
-        string DeliveryActivo(RequestPatchDeliveryActivo deliveryActivo);
-        List<DataActivoEmployeeNotificationEmail> GetAllUndelivered();
+        DataResponse DeliveryActivo(RequestPatchDeliveryActivo deliveryActivo);
+        DataResponse GetAllUndelivered();
         List<DataActivoEmployeeNotificationEmail> GetAllUndeliveredSendNotification();
     }
 }

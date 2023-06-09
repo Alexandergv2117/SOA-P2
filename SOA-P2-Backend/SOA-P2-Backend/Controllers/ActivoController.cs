@@ -29,5 +29,11 @@ namespace SOA_P2_Backend.Controllers
         {
             return Ok(_activo.UpdateStatusActivo(newStatus));
         }
+
+        [HttpDelete]
+        public IActionResult Delete(RequestDeleteActivo deleteActivo) 
+        {
+            return Ok(_activo.DeleteActivo(deleteActivo));
+        }
     }
 }
