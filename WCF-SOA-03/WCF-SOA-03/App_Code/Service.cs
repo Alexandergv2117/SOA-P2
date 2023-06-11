@@ -398,4 +398,74 @@ public class Service : IService
 
         return data;
     }
+    public string UpdateEmployee(int num_employee, string email, bool status, string name, string last_name, string birth_date)
+    {
+        var updateEmployee = new UpdateEmployee
+        {
+            name = name,
+            birth_date = birth_date,
+            email = email,
+            status = status,
+            last_name = last_name,
+            num_employee = num_employee,
+        };
+
+        string data = "";
+
+        try
+        {
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.Clear();
+
+            // Serializa el objeto newPerson a JSON
+            var json = JsonConvert.SerializeObject(updateEmployee);
+
+            // Crea el contenido de la solicitud POST con el JSON serializado
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            // Envía la solicitud POST a la URL deseada
+            var response = client.PutAsync(_URL_HOST + "Employees", content).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = response.Content.ReadAsStringAsync().Result;
+                var res = JsonConvert.DeserializeObject<DataResponsePost>(result);
+
+                data = JsonConvert.SerializeObject(res);
+            }
+        }
+        catch (Exception ex)
+        {
+            data = "Error: " + ex.Message;
+        }
+
+        return data;
+    }
+    public string DeleteEmployee(int idEmployee)
+    {
+        string data = "";
+
+        try
+        {
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.Clear();
+
+            // Envía la solicitud DELETE a la URL deseada
+            var response = client.DeleteAsync(_URL_HOST + "Employees?idEmployee=" + idEmployee).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = response.Content.ReadAsStringAsync().Result;
+                var res = JsonConvert.DeserializeObject<DataResponsePost>(result);
+
+                data = JsonConvert.SerializeObject(res);
+            }
+        }
+        catch (Exception ex)
+        {
+            data = "Error: " + ex.Message;
+        }
+
+        return data;
+    }
 }

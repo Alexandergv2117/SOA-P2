@@ -44,6 +44,10 @@ public interface IService
 	string GetAllDataPerson();
 	[OperationContract]
 	string CreatePersonAsync(string curp, string name, string last_name, string birth_date, string email, string password);
+    [OperationContract]
+    string DeleteEmployee(int idEmployee);
+	[OperationContract]
+	string UpdateEmployee(int num_employee, string email, bool status, string name, string last_name, string birth_date);
 
     // TODO: agregue aquí sus operaciones de servicio
 }

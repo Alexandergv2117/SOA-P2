@@ -109,8 +109,8 @@ namespace Repository.DAO
 
         public bool UpdateEmployee(RequestPutUpdateEmployee employee)
         {
-            Persona? persona = new Persona();
-            Empleado? empleado = new Empleado();
+            Persona persona = new Persona();
+            Empleado empleado = new Empleado();
             empleado = _context.Empleados.FirstOrDefault(e => e.num_employee == employee.num_employee);
 
             if (empleado != null)
@@ -118,7 +118,7 @@ namespace Repository.DAO
                 persona = _context.Personas.FirstOrDefault(a => a.curp == empleado.id_people);
                 persona.name = employee.name;
                 persona.last_name = employee.last_name;
-                persona.birth_date = employee.birth_date;
+                persona.birth_date = DateTime.Parse(employee.birth_date);
 
                 empleado.email = employee.email;
                 empleado.status = employee.status;

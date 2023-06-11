@@ -82,7 +82,7 @@ namespace Service.Services
                 {
                     res.Code = 400;
                     res.Data = requesPatchUpdateEmployee;
-                    res.Message = "OK";
+                    res.Message = "Ocurrion un error al actulizar el usuario";
                 }
             }
             catch (Exception e)

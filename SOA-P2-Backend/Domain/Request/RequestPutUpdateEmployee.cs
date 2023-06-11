@@ -21,7 +21,6 @@ namespace Domain.Request
         public string name { get; set; }
         [Required]
         public string last_name { get; set; }
-        [DataType(DataType.Date)]
-        public DateTime birth_date { get; set; }
+        public string birth_date { get; set; }
     }
 }
