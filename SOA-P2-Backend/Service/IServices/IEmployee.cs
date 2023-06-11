@@ -13,5 +13,8 @@ namespace Service.IServices
     {
         DataResponse GetAll();
         DataResponse CreateEmployee(RequestPostCreateEmployee newEmployee);
+        DataResponse UpdateEmployee(RequestPutUpdateEmployee newEmployee);
+        DataResponse DeleteEmployee(int idEmployee);
     }
+
 }

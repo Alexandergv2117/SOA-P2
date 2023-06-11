@@ -66,5 +66,61 @@ namespace Service.Services
             }
             return res;
         }
+
+        public DataResponse UpdateEmployee(RequestPutUpdateEmployee requesPatchUpdateEmployee)
+        {
+            DataResponse res = new DataResponse();
+            try
+            {
+                bool isUpdate = empleoyeeRepository.UpdateEmployee(requesPatchUpdateEmployee);
+                if (isUpdate)
+                {
+                    res.Code = 200;
+                    res.Data = requesPatchUpdateEmployee;
+                    res.Message = "Usuario actualizado";
+                } else
+                {
+                    res.Code = 400;
+                    res.Data = requesPatchUpdateEmployee;
+                    res.Message = "OK";
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                res.Code = 500;
+                res.Data = requesPatchUpdateEmployee;
+                res.Message = "Ocurrio un error al actualizar el usuario";
+            }
+            return res;
+        }
+        public DataResponse DeleteEmployee(int idEmployee)
+        {
+            DataResponse res = new DataResponse();
+            try
+            {
+                bool isDelete = empleoyeeRepository.DeleteEmployee(idEmployee);
+                if (isDelete)
+                {
+                    res.Code = 200;
+                    res.Data = idEmployee;
+                    res.Message = "Usuario eliminado";
+                } else
+                {
+                    res.Code = 400;
+                    res.Data = idEmployee;
+                    res.Message = "Ocurrio un error al eliminar el usuario";
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                res.Code = 500;
+                res.Data = idEmployee;
+                res.Message = "Ocurrio un error al eliminar el usuario";
+
+            }
+            return res;
+        }
     }
 }

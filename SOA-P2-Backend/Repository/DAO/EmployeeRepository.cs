@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Repository.Context;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -41,7 +43,7 @@ namespace Repository.DAO
 
         public EmpleadoVM GetEmpleadoById(int id)
         {
-            EmpleadoVM empleadoVM = new EmpleadoVM();
+            EmpleadoVM? empleadoVM = new EmpleadoVM();
 
             empleadoVM = _context.Empleados
                 .Include(x => x.Persona)
@@ -103,6 +105,51 @@ namespace Repository.DAO
 
                 return isValid;
             }
+        }
+
+        public bool UpdateEmployee(RequestPutUpdateEmployee employee)
+        {
+            Persona? persona = new Persona();
+            Empleado? empleado = new Empleado();
+            empleado = _context.Empleados.FirstOrDefault(e => e.num_employee == employee.num_employee);
+
+            if (empleado != null)
+            {
+                persona = _context.Personas.FirstOrDefault(a => a.curp == empleado.id_people);
+                persona.name = employee.name;
+                persona.last_name = employee.last_name;
+                persona.birth_date = employee.birth_date;
+
+                empleado.email = employee.email;
+                empleado.status = employee.status;
+
+                _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
+
+        public bool DeleteEmployee(int idEmployee)
+        {
+            Empleado? dataEmployee = new Empleado();
+            Persona? persona = new Persona();
+
+            dataEmployee = _context.Empleados.FirstOrDefault(e => e.num_employee == idEmployee);
+
+            if (dataEmployee != null)
+            {
+                persona = _context.Personas.FirstOrDefault(p => p.curp == dataEmployee.id_people);
+
+                if (persona != null)
+                {
+                    _context.Empleados.Remove(dataEmployee);
+                    _context.Personas.Remove(persona);
+                    _context.SaveChanges();
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
