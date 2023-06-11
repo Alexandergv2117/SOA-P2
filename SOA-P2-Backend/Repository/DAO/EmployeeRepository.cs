@@ -4,7 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using Repository.Context;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -40,7 +43,7 @@ namespace Repository.DAO
 
         public EmpleadoVM GetEmpleadoById(int id)
         {
-            EmpleadoVM empleadoVM = new EmpleadoVM();
+            EmpleadoVM? empleadoVM = new EmpleadoVM();
 
             empleadoVM = _context.Empleados
                 .Include(x => x.Persona)
@@ -63,6 +66,13 @@ namespace Repository.DAO
 
         public void AddEmployee(RequestPostCreateEmployee newEmployee)
         {
+            string passEncrypted = "";
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(newEmployee.password));
+
+                passEncrypted = BitConverter.ToString(bytes).Replace("-", "").ToLower();
+            }
             _context.Personas.Add(new Persona
             {
                 curp = newEmployee.curp,
@@ -76,10 +86,70 @@ namespace Repository.DAO
                 id_people = newEmployee.curp,
                 email = newEmployee.email,
                 date_hire = DateTime.Now,
-                status = true
+                status = true,
+                password = passEncrypted
             });
 
             _context.SaveChanges();
+        }
+
+        public bool validCredentials(RequestPostLogin user)
+        {
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(user.password));
+
+                string passEncrypted = BitConverter.ToString(bytes).Replace("-", "").ToLower();
+
+                bool isValid = _context.Empleados.Any(e => e.email == user.email && e.password == passEncrypted);
+
+                return isValid;
+            }
+        }
+
+        public bool UpdateEmployee(RequestPutUpdateEmployee employee)
+        {
+            Persona persona = new Persona();
+            Empleado empleado = new Empleado();
+            empleado = _context.Empleados.FirstOrDefault(e => e.num_employee == employee.num_employee);
+
+            if (empleado != null)
+            {
+                persona = _context.Personas.FirstOrDefault(a => a.curp == empleado.id_people);
+                persona.name = employee.name;
+                persona.last_name = employee.last_name;
+                persona.birth_date = DateTime.Parse(employee.birth_date);
+
+                empleado.email = employee.email;
+                empleado.status = employee.status;
+
+                _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
+
+        public bool DeleteEmployee(int idEmployee)
+        {
+            Empleado? dataEmployee = new Empleado();
+            Persona? persona = new Persona();
+
+            dataEmployee = _context.Empleados.FirstOrDefault(e => e.num_employee == idEmployee);
+
+            if (dataEmployee != null)
+            {
+                persona = _context.Personas.FirstOrDefault(p => p.curp == dataEmployee.id_people);
+
+                if (persona != null)
+                {
+                    _context.Empleados.Remove(dataEmployee);
+                    _context.Personas.Remove(persona);
+                    _context.SaveChanges();
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

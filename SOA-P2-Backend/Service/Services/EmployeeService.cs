@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Request;
+using Domain.Response;
 using Microsoft.Extensions.Logging;
 using Repository.Context;
 using Repository.DAO;
@@ -23,34 +24,103 @@ namespace Service.Services
             empleoyeeRepository = new EmployeeRepository(context);
         }
 
-        public List<EmpleadoVM> GetAll()
+        public DataResponse GetAll()
         {
+            DataResponse res = new DataResponse();
             List<EmpleadoVM> empleaoyees = new List<EmpleadoVM>();
 
             try
             {
                 empleaoyees = empleoyeeRepository.GetList();
+                res.Code = 200;
+                res.Data = empleaoyees;
+                res.Message = "OK";
             }
             catch (Exception e) 
             {
                 _logger.LogError(e.Message);
+                res.Code = 500;
+                res.Data = empleaoyees;
+                res.Message = "Ocurrio un error, al obtener la lista de empleado";
             }
 
-            return empleaoyees;
+            return res;
         }
 
-        public string CreateEmployee(RequestPostCreateEmployee requestPostCreateEmployee)
+        public DataResponse CreateEmployee(RequestPostCreateEmployee requestPostCreateEmployee)
         {
+            DataResponse res = new DataResponse();
             try
             {
                 empleoyeeRepository.AddEmployee(requestPostCreateEmployee);
-                return "Usuario creado";
+                res.Code = 200;
+                res.Data = requestPostCreateEmployee;
+                res.Message = "OK";
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
-                return "Ocurrio un error al crear el usuario";
+                res.Code = 500;
+                res.Data = requestPostCreateEmployee;
+                res.Message = "Ocurrio un error, al crear el empleado";
             }
+            return res;
+        }
+
+        public DataResponse UpdateEmployee(RequestPutUpdateEmployee requesPatchUpdateEmployee)
+        {
+            DataResponse res = new DataResponse();
+            try
+            {
+                bool isUpdate = empleoyeeRepository.UpdateEmployee(requesPatchUpdateEmployee);
+                if (isUpdate)
+                {
+                    res.Code = 200;
+                    res.Data = requesPatchUpdateEmployee;
+                    res.Message = "Usuario actualizado";
+                } else
+                {
+                    res.Code = 400;
+                    res.Data = requesPatchUpdateEmployee;
+                    res.Message = "Ocurrion un error al actulizar el usuario";
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                res.Code = 500;
+                res.Data = requesPatchUpdateEmployee;
+                res.Message = "Ocurrio un error al actualizar el usuario";
+            }
+            return res;
+        }
+        public DataResponse DeleteEmployee(int idEmployee)
+        {
+            DataResponse res = new DataResponse();
+            try
+            {
+                bool isDelete = empleoyeeRepository.DeleteEmployee(idEmployee);
+                if (isDelete)
+                {
+                    res.Code = 200;
+                    res.Data = idEmployee;
+                    res.Message = "Usuario eliminado";
+                } else
+                {
+                    res.Code = 400;
+                    res.Data = idEmployee;
+                    res.Message = "Ocurrio un error al eliminar el usuario";
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                res.Code = 500;
+                res.Data = idEmployee;
+                res.Message = "Ocurrio un error al eliminar el usuario";
+
+            }
+            return res;
         }
     }
 }

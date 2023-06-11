@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Request;
+using Domain.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,10 @@ namespace Service.IServices
 {
     public interface IEmployee
     {
-        List<EmpleadoVM> GetAll();
-        string CreateEmployee(RequestPostCreateEmployee newEmployee);
+        DataResponse GetAll();
+        DataResponse CreateEmployee(RequestPostCreateEmployee newEmployee);
+        DataResponse UpdateEmployee(RequestPutUpdateEmployee newEmployee);
+        DataResponse DeleteEmployee(int idEmployee);
     }
+
 }

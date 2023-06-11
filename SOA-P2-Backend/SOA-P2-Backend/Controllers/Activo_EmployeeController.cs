@@ -26,7 +26,7 @@ namespace SOA_P2_Backend.Controllers
         {
             return Ok(_activo_Employee.AssignActivo(assignActivo));
         }
-        [HttpPatch]
+        [HttpPut]
         public IActionResult Update(RequestPatchDeliveryActivo deliveryActivo)
         {
             return Ok(_activo_Employee.DeliveryActivo(deliveryActivo));

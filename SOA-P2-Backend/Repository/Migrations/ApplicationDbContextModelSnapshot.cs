@@ -99,6 +99,10 @@ namespace Repository.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(18)");
 
+                    b.Property<string>("password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 

@@ -15,14 +15,14 @@ services:
 
   api:
     hostname: api
-    image: soa-p2-backend:latest
+    build: ./SOA-P2-Backend
     depends_on:
       - mssql
     ports:
       - 8080:80
   front:
     hostname: front
-    image: soa-p2-frontend:latest
+    build: ./SOA-P2-Frontend
     depends_on:
       - api
     ports:

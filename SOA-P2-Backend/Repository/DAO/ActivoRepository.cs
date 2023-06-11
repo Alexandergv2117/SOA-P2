@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Request;
+using Microsoft.EntityFrameworkCore;
 using Repository.Context;
 using System;
 using System.Collections.Generic;
@@ -18,16 +19,24 @@ namespace Repository.DAO
             _context = context;
         }
 
-        public void AddActivo (RequestPostCreateActivo newActivo)
+        public bool AddActivo (RequestPostCreateActivo newActivo)
         {
-            _context.Activos.Add(new Activo
-            {
-                name = newActivo.name,
-                description = newActivo.description,
-                status = false
-            });
+            Activo activo = new Activo();
+            activo = _context.Activos.FirstOrDefault(x => x.name == newActivo.name);
 
-            _context.SaveChanges();
+            if (activo == null) 
+            {
+                _context.Activos.Add(new Activo
+                {
+                    name = newActivo.name,
+                    description = newActivo.description,
+                    status = false
+                });
+
+                _context.SaveChanges();
+                return true;
+            }
+            return false;
         }
 
         public Activo GetById(int id)
@@ -39,15 +48,18 @@ namespace Repository.DAO
             return activo;
         }
 
-        public void UpdateStatusActivo(RequestPatchUpdateStatusActivo newStatus)
+        public bool UpdateStatusActivo(RequestPatchUpdateStatusActivo newStatus)
         {
-            Activo activo = _context.Activos.FirstOrDefault(a => a.id == newStatus.id);
+            Activo activo = new Activo();
+            activo = _context.Activos.FirstOrDefault(a => a.id == newStatus.id);
 
             if (activo != null)
             {
                 activo.status = newStatus.status;
                 _context.SaveChanges();
+                return true;
             }
+            return false;
         }
 
         public List<Activo> GetAll()
@@ -57,6 +69,21 @@ namespace Repository.DAO
             activos = _context.Activos.ToList();
 
             return activos;
+        }
+
+        public bool Delete(RequestDeleteActivo requestDeleteActivo)
+        {
+            Activo activo = new Activo();
+
+            activo = _context.Activos.Single(x => x.id == requestDeleteActivo.id && x.status == false);
+
+            if (activo != null)
+            {
+                _context.Activos.Remove(activo);
+                _context.SaveChanges();
+                return true;
+            }
+            return false;
         }
     }
 }

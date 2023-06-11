@@ -20,5 +20,7 @@ namespace Domain.Request
         public string birth_date { get; set; } = string.Empty;
         [Required, MaxLength(255)]
         public string email { get; set; } = string.Empty;
+        [Required, MaxLength(255)]
+        public string password { get; set; }
     }
 }
