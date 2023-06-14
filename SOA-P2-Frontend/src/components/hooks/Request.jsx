@@ -2,10 +2,10 @@ import axios from "axios"
 
 const hostBack = import.meta.env.VITE_HOST_BACK
 
-export const useGet = async(route) => {
+export const useGet = async(endpoint) => {
     try {
-        const response = await axios.get(`${hostBack}/${route}`)
-        return response.data
+        const response = await axios.post(`${hostBack}/${endpoint}`)
+        return response
     } catch (e) {
         console.error(e)
         return e

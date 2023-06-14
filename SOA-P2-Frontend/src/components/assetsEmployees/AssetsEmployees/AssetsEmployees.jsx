@@ -11,7 +11,8 @@ export const AssetsEmployees = () => {
 
   const GetAssetsEmpolyees = async () => {
     try {
-      const response = await useGet('Activo_Employee/undelivery');
+      const response = await useGet('GetAllDataActivo');
+      //const response = await useGet('Activo_Employee/undelivery');
       setAssetsEmployees(response)
     } catch (error) {
       console.error(error)
