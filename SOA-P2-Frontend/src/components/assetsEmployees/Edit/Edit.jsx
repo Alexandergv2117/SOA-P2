@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react'
-import { usePost } from '../../hooks/Request'
 import styles from './Edit.module.css'
 import { OwnSelect } from '../../common/OwnSelect/OwnSelect';
-import { useGet } from "../../hooks/Request"
+import { GetAllDataActivo } from "../../../utils/requestXML/RequestActivos"
+import { GetAllDataPerson } from "../../../utils/requestXML/RequestEmployees"
+import { UpdateActivoEmployee } from "../../../utils/requestXML/RequestAssetsEmployees"
 
 // eslint-disable-next-line react/prop-types, no-unused-vars
 export const Edit = ({entity}) => {
@@ -27,7 +28,7 @@ export const Edit = ({entity}) => {
     }
     // console.log(form)
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    await usePost('Activo_Employee', form )
+    await UpdateActivoEmployee( form )
     window.location.reload()
   }
 
@@ -48,7 +49,7 @@ export const Edit = ({entity}) => {
   }
   const GetEmployees = async () => {
     try {
-      const response = await useGet('Employees')
+      const response = await GetAllDataPerson()
       const data = formatEmployees(response)
       setEmployeesForSelect(data)
       data.map((element) => {
@@ -64,7 +65,7 @@ export const Edit = ({entity}) => {
 
   const GetAssets = async () => {
     try {
-      const response = await useGet('Activo');
+      const response = await GetAllDataActivo()
       const data = formatAssets(response)
       setAssetsForSelect(data)
       data.map((element) => {

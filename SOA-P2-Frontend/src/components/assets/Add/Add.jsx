@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { usePost } from '../../hooks/Request'
+import { CreateActivo } from '../../../utils/requestXML/RequestActivos'
 import styles from './Add.module.css'
 
 // eslint-disable-next-line react/prop-types
@@ -19,7 +19,7 @@ export const Add = () => {
   const handleSubmit = async(e) => {
     e.preventDefault()
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    await usePost('Activo', form )
+    await CreateActivo(form )
     window.location.reload()
   }
 

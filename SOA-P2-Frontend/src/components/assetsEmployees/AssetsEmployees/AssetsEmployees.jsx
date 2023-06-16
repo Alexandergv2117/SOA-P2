@@ -1,7 +1,6 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect, useState } from "react"
 import styles from "./AssetsEmployees.module.css"
-import { useGet, usePatch } from "../../hooks/Request"
+import { GetAllDataActivoEmployee, UpdateActivoEmployee } from "../../../utils/requestXML/RequestAssetsEmployees"
 import { OwnModal } from "../../common/OwnModal/OwnModal"
 import { Add } from "../Add/Add"
 
@@ -11,8 +10,7 @@ export const AssetsEmployees = () => {
 
   const GetAssetsEmpolyees = async () => {
     try {
-      const response = await useGet('GetAllDataActivo');
-      //const response = await useGet('Activo_Employee/undelivery');
+      const response = await GetAllDataActivoEmployee()
       setAssetsEmployees(response)
     } catch (error) {
       console.error(error)
@@ -25,7 +23,8 @@ export const AssetsEmployees = () => {
         id_empleoyee: entity.id_empleoyee,
         id_activo: entity.id_activo,
       }
-      await usePatch('Activo_Employee', data)
+      ////////////////////////////////
+      await UpdateActivoEmployee( data )
     } catch (error) {
       console.error(error)
     }
@@ -42,7 +41,6 @@ export const AssetsEmployees = () => {
 
   useEffect(() => {
     GetAssetsEmpolyees()
-    console.log(assetsEmployees)
   }, [])
   
   return (

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import styles from "./Employees.module.css"
-import { useGet } from "../../hooks/Request"
 import { OwnModal } from "../../common/OwnModal/OwnModal"
 import { Add } from "../Add/Add"
+import { GetAllDataPerson } from "../../../utils/requestXML/RequestEmployees"
 
 export const Employees = () => {
   const [employees, setEmployees] = useState([])
@@ -14,7 +14,7 @@ export const Employees = () => {
 
   const GetEmployees = async () => {
     try {
-      const response = await useGet('Employees')
+      const response = await GetAllDataPerson()
       setEmployees(response)
       console.log(response)
     } catch (error) {

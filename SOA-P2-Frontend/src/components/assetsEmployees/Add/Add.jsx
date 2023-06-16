@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
-import { usePost } from '../../hooks/Request'
 import styles from './Add.module.css'
 import { OwnSelect } from '../../common/OwnSelect/OwnSelect';
-import { useGet } from "../../hooks/Request"
+import { AssignActivo } from "../../../utils/requestXML/RequestAssetsEmployees"
+import { GetAllDataActivo } from "../../../utils/requestXML/RequestActivos"
+import { GetAllDataPerson } from "../../../utils/requestXML/RequestEmployees"
+
 
 // eslint-disable-next-line react/prop-types
 export const Add = () => {
@@ -26,7 +28,7 @@ export const Add = () => {
     }
     // console.log(form)
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    await usePost('Activo_Employee', form )
+    await AssignActivo( form )
     window.location.reload()
   }
 
@@ -47,7 +49,7 @@ export const Add = () => {
   }
   const GetEmployees = async () => {
     try {
-      const response = await useGet('Employees')
+      const response = await GetAllDataPerson()
       const data = formatEmployees(response)
       setEmployeesForSelect(data)
     } catch (error) {
@@ -57,7 +59,7 @@ export const Add = () => {
 
   const GetAssets = async () => {
     try {
-      const response = await useGet('Activo');
+      const response = await GetAllDataActivo()
       const data = formatAssets(response)
       console.log(data)
       setAssetsForSelect(data)

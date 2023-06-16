@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import styles from "./Assets.module.css"
-import { useGet } from "../../hooks/Request"
 import { OwnModal } from "../../common/OwnModal/OwnModal"
 import { Add } from "../Add/Add"
+import { GetAllDataActivo } from "../../../utils/requestXML/RequestActivos"
 
 export const Assets = () => {
   const [assets, setAssets] = useState([])
@@ -10,7 +10,7 @@ export const Assets = () => {
 
   const GetAssets = async () => {
     try {
-      const response = await useGet('Activo');
+      const response = await GetAllDataActivo();
       console.log(response)
       setAssets(response)
     } catch (error) {

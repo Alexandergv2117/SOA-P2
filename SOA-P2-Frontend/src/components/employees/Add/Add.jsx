@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { usePost } from '../../hooks/Request'
+import { CreatePerson } from '../../../utils/requestXML/RequestEmployees'
 import styles from './Add.module.css'
 
 // eslint-disable-next-line react/prop-types
@@ -9,7 +9,8 @@ export const Add = () => {
         name: '',
         last_name: '',
         birth_date: '',
-        email: ''
+        email: '',
+        password: '',
     });
   
     const handleChange = (e) => {
@@ -21,8 +22,7 @@ export const Add = () => {
   
     const handleSubmit = async(e) => {
       e.preventDefault()
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      await usePost('Employees', form )
+      await CreatePerson( form )
       window.location.reload()
     }
   
@@ -48,6 +48,10 @@ export const Add = () => {
           <div className={styles.field}>
             <label htmlFor="email">Email</label>
             <input type="text" name="email" value={form.email} onChange={handleChange}/>
+          </div>
+          <div className={styles.field}>
+            <label htmlFor="password">Contraseña</label>
+            <input type="password" name="password" value={form.password} onChange={handleChange}/>
           </div>
           <input type="submit" value="Guardar"/>
         </form>
