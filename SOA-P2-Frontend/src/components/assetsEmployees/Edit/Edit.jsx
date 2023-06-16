@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react'
 import styles from './Edit.module.css'
@@ -26,8 +27,6 @@ export const Edit = ({entity}) => {
       id_activo: idActivo,
       delivery_date: deliveryDate
     }
-    // console.log(form)
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     await UpdateActivoEmployee( form )
     window.location.reload()
   }
@@ -47,13 +46,13 @@ export const Edit = ({entity}) => {
     });
     return array
   }
+  
   const GetEmployees = async () => {
     try {
       const response = await GetAllDataPerson()
       const data = formatEmployees(response)
       setEmployeesForSelect(data)
       data.map((element) => {
-        // eslint-disable-next-line react/prop-types
         if(entity.id_empleoyee === element.value){
           setidEmpleoyee(element.value)
         }
@@ -79,22 +78,9 @@ export const Edit = ({entity}) => {
     }
   }
 
-  // const setValuesForEdit = () => {
-  //   employeesForSelect.map((employee) => {
-  //     console.log(employee)
-  //     // eslint-disable-next-line react/prop-types
-  //     // if(entity.id_empleoyee === employee.value){
-  //     //   setidEmpleoyee(employee.value)
-  //     // }
-  //   })
-  // }
-
   useEffect(() => {
-    // console.log(entity)
     GetEmployees()
     GetAssets()
-    // setValuesForEdit()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

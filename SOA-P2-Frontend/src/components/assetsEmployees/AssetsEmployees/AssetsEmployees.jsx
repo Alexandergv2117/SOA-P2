@@ -25,6 +25,7 @@ export const AssetsEmployees = () => {
       }
       ////////////////////////////////
       await UpdateActivoEmployee( data )
+      window.location.reload()
     } catch (error) {
       console.error(error)
     }
