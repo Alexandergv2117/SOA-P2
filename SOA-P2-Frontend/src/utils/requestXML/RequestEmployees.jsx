@@ -68,3 +68,30 @@ export const CreatePerson = async(person) => {
       return e
   }
 }
+
+export const DeleteEmployee = async(idEmployee) => {
+  try {
+      const data = `<?xml version="1.0" encoding="utf-8"?>
+      <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+        <soap:Body>
+          <DeleteEmployee xmlns="http://tempuri.org/">
+            <idEmployee>${Number(idEmployee)}</idEmployee>
+          </DeleteEmployee>
+        </soap:Body>
+      </soap:Envelope>
+      `
+      const response = await axios.post(`${hostBack}`, data, {
+         headers: {
+            'Content-Type': 'text/xml; charset=utf-8',
+            SOAPAction: 'http://tempuri.org/IService/DeleteEmployee',
+         },
+         maxContentLength: Infinity,
+      })
+      
+      return xml2json(response.data, 'DeleteEmployeeResult')
+
+  } catch (e) {
+      console.error(e)
+      return e
+  }
+}

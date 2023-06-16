@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import styles from "./Employees.module.css"
 import { OwnModal } from "../../common/OwnModal/OwnModal"
 import { Add } from "../Add/Add"
-import { GetAllDataPerson } from "../../../utils/requestXML/RequestEmployees"
+import { GetAllDataPerson, DeleteEmployee } from "../../../utils/requestXML/RequestEmployees"
 
 export const Employees = () => {
   const [employees, setEmployees] = useState([])
@@ -11,6 +11,13 @@ export const Employees = () => {
   const handleAdd = () => {
     setOpen(true)
   }
+
+  const handleDelete = async(e, entity) => {
+    e.preventDefault()
+    await DeleteEmployee(entity)
+    window.location.reload()
+  }
+
 
   const GetEmployees = async () => {
     try {
@@ -41,6 +48,7 @@ export const Employees = () => {
           <p>curp</p>
           <p>date_hire</p>
           <p>status</p>
+          <p>Acciones</p>
         </div>
         <div className={styles.tBody}>
           { employees.length >= 0 ? 
@@ -54,6 +62,14 @@ export const Employees = () => {
                 <p>{employee.curp}</p>
                 <p>{employee.date_hire}</p>
                 <p>{employee.status ? 'Activo': 'No activo'}</p>
+                <div className={styles.btnEdit}>
+                  <input type="button" onClick={(e) =>handleDelete(e, employee.num_employee)} value="Eliminar" />
+                  {/* <button >Editar</button> */}
+                </div>
+                {/* <div className={styles.btnEdit}>
+                  <input type="button" onClick={(e) =>handleEdit(e, employee.num_employee)} value="Eliminar" />
+                  
+                </div> */}
               </div>
             ))
             : null
